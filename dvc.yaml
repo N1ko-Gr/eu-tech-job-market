@@ -1,0 +1,43 @@
+stages:
+  download:
+    desc: Download the raw files from the public sources (about 730 MB, not stored in Git)
+    cmd: python download_data.py
+    deps:
+      - download_data.py
+    outs:
+      - data/raw:
+          cache: false
+  snapshot:
+    desc: Keep European countries and the needed columns (about 6 MB, stored in Git)
+    cmd: python build_snapshot.py
+    deps:
+      - build_snapshot.py
+      - download_data.py
+      - data/raw
+    outs:
+      - data/indeed_sectors.csv.gz:
+          cache: false
+      - data/indeed_totals.csv.gz:
+          cache: false
+      - data/indeed_sector_examples.csv:
+          cache: false
+      - data/stackoverflow_2022.csv.gz:
+          cache: false
+      - data/stackoverflow_2023.csv.gz:
+          cache: false
+      - data/stackoverflow_2024.csv.gz:
+          cache: false
+      - data/stackoverflow_2025.csv.gz:
+          cache: false
+      - data/stackoverflow_2026.csv.gz:
+          cache: false
+      - data/eurostat_ict_specialists.csv:
+          cache: false
+      - data/eurostat_ict_vacancies.csv:
+          cache: false
+      - data/eurostat_price_levels.csv:
+          cache: false
+      - data/eurostat_usd_rates.csv:
+          cache: false
+      - data/github_languages.csv.gz:
+          cache: false

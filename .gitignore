@@ -16,5 +16,5 @@ __pycache__/
 # OS files
 .DS_Store
 
-# Raw downloads (too big for GitHub, recreated by collect_data.py)
+# Raw downloads (too big for GitHub, recreated by download_data.py)
 data/raw/

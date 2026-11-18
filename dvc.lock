@@ -1,0 +1,84 @@
+schema: '2.0'
+stages:
+  download:
+    cmd: python download_data.py
+    deps:
+    - path: download_data.py
+      hash: md5
+      md5: bbaf91b89214588672fd77a291b8634d
+      size: 4244
+    outs:
+    - path: data/raw
+      hash: md5
+      md5: de212a60dab3486fdb18fc325966fd18.dir
+      size: 731786974
+      nfiles: 21
+  snapshot:
+    cmd: python build_snapshot.py
+    deps:
+    - path: build_snapshot.py
+      hash: md5
+      md5: 2004d22e958904b2793b7230456fe63b
+      size: 4770
+    - path: data/raw
+      hash: md5
+      md5: de212a60dab3486fdb18fc325966fd18.dir
+      size: 731786974
+      nfiles: 21
+    - path: download_data.py
+      hash: md5
+      md5: bbaf91b89214588672fd77a291b8634d
+      size: 4244
+    outs:
+    - path: data/eurostat_ict_specialists.csv
+      hash: md5
+      md5: efe03fd376ad8b6f6d8e481b8a8f9566
+      size: 29896
+    - path: data/eurostat_ict_vacancies.csv
+      hash: md5
+      md5: 98b924be15b7ff973b7ab122a21a289f
+      size: 140726
+    - path: data/eurostat_price_levels.csv
+      hash: md5
+      md5: 6fb336187efd8192befeef7ab4d6631b
+      size: 14630
+    - path: data/eurostat_usd_rates.csv
+      hash: md5
+      md5: 198c3107557a3bb4bded5abc2ae7d063
+      size: 736
+    - path: data/github_languages.csv.gz
+      hash: md5
+      md5: 48b6b7a895adb74aa96cd307aee2064c
+      size: 338965
+    - path: data/indeed_sector_examples.csv
+      hash: md5
+      md5: 6f9f3e358981621b5a652d0e40fcfc32
+      size: 2467
+    - path: data/indeed_sectors.csv.gz
+      hash: md5
+      md5: f4eb5aab66137d946036debf105c1543
+      size: 1704923
+    - path: data/indeed_totals.csv.gz
+      hash: md5
+      md5: 245831256c88d6dfc5c2133cee61fcea
+      size: 130488
+    - path: data/stackoverflow_2022.csv.gz
+      hash: md5
+      md5: e0574683ab2c603fdff0e443b06b2f57
+      size: 839911
+    - path: data/stackoverflow_2023.csv.gz
+      hash: md5
+      md5: c8858379cb239e8caa9732d5d02d5f48
+      size: 1121916
+    - path: data/stackoverflow_2024.csv.gz
+      hash: md5
+      md5: a8e6a7a528cc091fd1cfc507ffd0de0c
+      size: 717693
+    - path: data/stackoverflow_2025.csv.gz
+      hash: md5
+      md5: 59b1e0cacae8dff121fc926ff517cc43
+      size: 474786
+    - path: data/stackoverflow_2026.csv.gz
+      hash: md5
+      md5: da65e1e99a69e4dce6caaa1721f9391e
+      size: 277382
