@@ -18,12 +18,13 @@ Versions, filters and license details for every file are in [data/SOURCES.md](da
 
 ## Project structure
 ```
-├── download_data.py   # downloads the raw files into data/raw/ (about 730 MB, not in Git)
-├── build_snapshot.py  # keeps European countries and the needed columns
-├── dvc.yaml           # the data pipeline: download -> snapshot
-├── dvc.lock           # MD5 hashes of the exact files used
-├── data/              # the snapshot the notebook reads (13 files, about 6 MB)
-│   └── SOURCES.md     # sources, versions and licenses
+├── eu_tech_job_market.ipynb  # the main notebook: analysis, math and results
+├── download_data.py          # downloads the raw files into data/raw/ (about 730 MB, not in Git)
+├── build_snapshot.py         # keeps European countries and the needed columns
+├── dvc.yaml                  # the data pipeline: download -> snapshot
+├── dvc.lock                  # MD5 hashes of the exact files used
+├── data/                     # the snapshot the notebook reads (13 files, about 6 MB)
+│   └── SOURCES.md            # sources, versions and licenses
 └── requirements.txt
 ```
 
@@ -34,7 +35,7 @@ Requires Python 3.12.
 python -m venv .venv
 source .venv/bin/activate      # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-jupyter notebook
+jupyter notebook eu_tech_job_market.ipynb
 ```
 
 The notebook reads only the files in `data/`, so it works offline.
