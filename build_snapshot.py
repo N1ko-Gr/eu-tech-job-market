@@ -1,8 +1,9 @@
 """Build the small data snapshot in data/ from the raw files in data/raw/.
 
 Only European countries and the columns needed later are kept, so the files
-are small enough for GitHub. The values are not cleaned or changed here.
-All cleaning and validation is done in the notebook, step by step.
+are small enough for GitHub. Rows and columns are filtered, but the values
+themselves stay exactly as in the sources. All cleaning and validation is done
+in the notebook, step by step.
 
 Run it after download_data.py:
 
@@ -75,6 +76,21 @@ def build_survey():
         save(survey, f"stackoverflow_{year}.csv.gz")
 
 
+def check_eurostat(table, code_columns):
+    """Stop if removing columns could mix different kinds of values.
+
+    Every removed code column must have only one value, and the kept columns
+    must identify each row. Confidential values (CONF_STATUS 'C') are not allowed.
+    """
+    key = code_columns + [column for column in ("geo", "TIME_PERIOD") if column in table]
+    removed = [column for column in table.columns
+               if column not in key + ["DATAFLOW", "LAST UPDATE", "OBS_VALUE", "OBS_FLAG", "CONF_STATUS"]]
+    for column in removed:
+        assert table[column].nunique() == 1, f"{column} has more than one value"
+    assert not table.duplicated(key).any(), f"rows are not unique on {key}"
+    assert table["CONF_STATUS"].isna().all(), "confidential values in the selected countries"
+
+
 def build_eurostat():
     """Keep European countries, plus the code columns that still have more than one value."""
     tables = {
@@ -85,9 +101,11 @@ def build_eurostat():
     for dataset, (name, code_columns) in tables.items():
         table = pd.read_csv(RAW_DIR / "eurostat" / f"{dataset}.csv")
         table = table[table["geo"].isin(EUROSTAT_CODES)]
+        check_eurostat(table, code_columns)
         save(table[code_columns + EUROSTAT_COLUMNS], name)
 
     rates = pd.read_csv(RAW_DIR / "eurostat" / "ert_bil_eur_a.csv")
+    check_eurostat(rates, [])
     save(rates[["TIME_PERIOD", "OBS_VALUE", "OBS_FLAG"]], "eurostat_usd_rates.csv")
 
 

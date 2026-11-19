@@ -5,8 +5,8 @@ stages:
     deps:
     - path: download_data.py
       hash: md5
-      md5: bbaf91b89214588672fd77a291b8634d
-      size: 4244
+      md5: 725203c5eae6fefca0cd9f4bffcb5e49
+      size: 4573
     outs:
     - path: data/raw
       hash: md5
@@ -18,8 +18,8 @@ stages:
     deps:
     - path: build_snapshot.py
       hash: md5
-      md5: 2004d22e958904b2793b7230456fe63b
-      size: 4770
+      md5: cd6f0d849cf53c6b6e453a380cfc10d8
+      size: 5695
     - path: data/raw
       hash: md5
       md5: de212a60dab3486fdb18fc325966fd18.dir
@@ -27,8 +27,8 @@ stages:
       nfiles: 21
     - path: download_data.py
       hash: md5
-      md5: bbaf91b89214588672fd77a291b8634d
-      size: 4244
+      md5: 725203c5eae6fefca0cd9f4bffcb5e49
+      size: 4573
     outs:
     - path: data/eurostat_ict_specialists.csv
       hash: md5

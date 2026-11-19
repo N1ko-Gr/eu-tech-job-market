@@ -70,19 +70,27 @@ def build_file_list():
 
 
 def download(url, path, attempts=3):
-    """Save one file to disk. Retry on errors, because the Eurostat API is sometimes slow."""
+    """Save one file to disk. Retry on errors, because the Eurostat API is sometimes slow.
+
+    The data goes to a temporary .part file first, and gets its real name only
+    when the download is complete. So a broken download never looks like a good file.
+    """
     path.parent.mkdir(parents=True, exist_ok=True)
+    part = path.with_name(path.name + ".part")
     for attempt in range(1, attempts + 1):
         try:
             with requests.get(url, stream=True, timeout=300) as response:
                 response.raise_for_status()
-                with open(path, "wb") as file:
+                with open(part, "wb") as file:
                     for chunk in response.iter_content(chunk_size=1_000_000):
                         file.write(chunk)
+            part.replace(path)
             return
         except requests.RequestException as error:
             print(f"  attempt {attempt} failed: {error}")
-            time.sleep(5 * attempt)
+            part.unlink(missing_ok=True)
+            if attempt < attempts:
+                time.sleep(5 * attempt)
     raise RuntimeError(f"Could not download {url}")
 
 
